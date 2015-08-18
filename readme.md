@@ -25,3 +25,109 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ### License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
+
+## Description proyect
+
+In this way we will have the inicales laravel verbs to CRUD: a controller, which can be created with laravel using the "controller name_controler php artisan make" command is used.
+
+``` bash
+<?php
+
+namespace App\Http\Controllers\Rest;
+
+use App\Http\Controllers\Controller;
+
+class RestController extends Controller
+{
+  public function index()
+  {
+  }
+  public function show()
+  {
+  }
+  public function create()
+  {
+  }
+  public function store()
+  {
+  }
+  public function edit()
+  {
+  }
+  public function update()
+  {
+  }
+  public function destroy()
+  {
+  }
+}
+?>
+```
+created the "Entitie" folder to alamcenar classes will have our processes within entities can create sub folders to host your classes, be sure to attach the file php namespace. Example allow
+```
+namespace App\Entitie\name_folder;
+```
+
+we must understand in this exercise it is to use Entities to accommodate all the logical processes as totos show, show only one, insert, update, delete, processes that would in the driver created, but here we will do so more orders for avoid files
+
+### Models
+The models can be created with laravel or as a normal file php, just as I recommend staying their models in folders to have a more project sectioned and faster to locate their classes.
+
+Example model:
+```
+<?php
+
+namespace App\Storage;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Ciudades extends Model
+{
+    protected $table = 'ciudades';
+
+     public $timestamps = false;
+}
+```
+
+##index method
+recalls that this method will do so in the relevant class hosted Entities
+```
+public function getIndex()
+    {
+        $result = Ciudad::all();
+
+        return $result;
+    }
+
+```
+in your controller your index method which we are going to use should look as follows
+```
+//Response is used to obtain the results as json
+    public function index()
+    {
+        $ciudad = new Ciudad();
+        return \Response::json($ciudad->getIndex());
+
+    }
+```
+
+the following methods you can run the same way as if you were in your controller, and all you have to do in your driver is making the right call to your classes Entitie.
+consider using only one form for consultation in this exercise used "facades", here's a fashion of the head of my driver
+```
+<?php
+
+namespace App\Http\Controllers\Rest;
+
+//classes to which I refer in Entities
+use App\Entitie\Ciudad\Ciudades as Ciudad;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Validator;
+
+class RestController extends Controller
+{
+...
+...
+...
+```
