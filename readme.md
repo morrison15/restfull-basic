@@ -28,7 +28,14 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 
 ## Description proyect
 
-In this way we will have the inicales laravel verbs to CRUD: a controller, which can be created with laravel using the "controller name_controler php artisan make" command is used.
+En este pequeño ejecicio ejemplificamos una forma para elaborar un restfull desde laravel 5.1, la idea basica de los procesos siguientes es poder realizar un CRUD, por lo que antes de empezar debemos crear nuestro proyecto en laravel.
+
+### Controller
+Una vez hecho creado nuestro podemos empezar creando nuestro controlador con el siguiente comando ejecutandolo desde tu consola, en este caso desde el cmd de windows:
+```
+>>php artisan make:controller nombre_controlador;
+```
+ejemplo de la estructura general del controlador
 
 ``` bash
 <?php
@@ -63,17 +70,30 @@ class RestController extends Controller
 }
 ?>
 ```
-created the "Entitie" folder to alamcenar classes will have our processes within entities can create sub folders to host your classes, be sure to attach the file php namespace. Example allow
+
+###Entities
+Entities no es mas que una carpeta donde vamos almacenar clases que tendran toda la lojica para ejecutar el CRUD en laravel, como sabras existen método hacen esto estando en el controlador, sin embargo, en este ejercico se pretende tener una estructura mas estructurada ya que su funcionalidad esta dirigida a operaciones mas comlejas, de esta forma, separa los proceso parece conveniente.
+
+###Models
+para nuestros modelos tambien debemos crear una estrucutar de directorios para poder almacenar nuestras clases que serán las que representen nuestras tablas de la base de datos a la que haremos conexion. En este ejercicio se utilizó el nombre de Storage para la carpeta principal. Para crear modelos se utilizan los comando de laravel desde consola
+
 ```
-namespace App\Entitie\name_folder;
+>>php artisan make:model nombre_modelo
 ```
 
-we must understand in this exercise it is to use Entities to accommodate all the logical processes as totos show, show only one, insert, update, delete, processes that would in the driver created, but here we will do so more orders for avoid files
+###namespace
+Tanto en Entities como en las carpetas de los modelos se debe tener cuidado de colocar los namespace, ya que esto permite la llamada de las clases en todo se este haciendo referencia para poder usarla
 
-### Models
-The models can be created with laravel or as a normal file php, just as I recommend staying their models in folders to have a more project sectioned and faster to locate their classes.
-
-Example model:
+namespace de Entities
+```
+namespace App\Entitie\nombre_folder;
+```
+namespace de Storage
+```
+namespace App\Storage;
+```
+### Definicion de un modelo
+Sabemos que la clase recibe el mismo nombre a la tabla de la que hace referencia, y utilizando Snake Case, pero para ser mas especificos y para evitar tropiezos con los nombres de las tablas, lo definimos de la siguiente forma:
 ```
 <?php
 
@@ -83,14 +103,28 @@ use Illuminate\Database\Eloquent\Model;
 
 class Ciudades extends Model
 {
+//aqui se determina a que tabla hace referencia para poder heredar todos sus campos
     protected $table = 'ciudades';
 
+//esta funcion permite omitir los compos que por default necesita laravel, como son created_at y updated_at
      public $timestamps = false;
 }
 ```
 
-##index method
-recalls that this method will do so in the relevant class hosted Entities
+
+##metodo Index
+Recuerda que ya no trabajaremos directamente con el controlador, asi que lo unico que haremos en el controlador es simplificar su existencia, y pasaremos la carga de sus procesos a Entities, por lo que nuestro metodo index de nuestro controlador quedaria de la siguiente forma:
+
+```
+public function index()
+    {
+        $ciudad = new Ciudad();
+        return \Response::json($ciudad->getIndex());
+
+    }
+```
+¿Recuerdas que te mencione de colocar los namespace correctamente?
+Bueno este es el momento de averiguar porque. En el controlador ya no vamos a usar 
 ```
 public function getIndex()
     {
